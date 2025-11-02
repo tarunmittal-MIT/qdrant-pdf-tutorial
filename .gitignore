@@ -24,6 +24,8 @@ qdrant_db/
 *.swp
 *.swo
 *~
+.cursor/
+.cursor-server/
 
 # OS
 .DS_Store
@@ -44,4 +46,17 @@ models/
 # Temporary files
 *.tmp
 *.log
+
+# System files
+.bash_history
+.bash_logout
+.bashrc
+.profile
+.sudo_as_admin_successful
+.cache/
+.local/
+.ssh/
+
+# Helper scripts (optional - remove if you want to track it)
+push_to_github.sh
 
