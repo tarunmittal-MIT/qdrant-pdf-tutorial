@@ -1,0 +1,7 @@
+{
+    "window.commandCenter": true,
+    "remote.SSH.remotePlatform": {
+        "sharedservice": "linux",
+        "pluralsight-playground": "linux"
+    }
+}
