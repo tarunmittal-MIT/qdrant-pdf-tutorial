@@ -1,11 +1,11 @@
 """
 ============================================================================
 LESSON: Data Splitting and Chunking with Qdrant Vector Database
-Using Azure AZ-104 Learning PDF
+Using Red Hat RH294 Learning Guide (RHCE Exam Preparation)
 ============================================================================
 
 Today's Agenda:
-1. Download and extract text from Azure AZ-104 PDF
+1. Extract text from Red Hat RH294 Student Guide PDF
 2. Data splitting strategies
 3. Advanced chunking techniques for PDFs
 4. Storing chunks in Qdrant vector database
@@ -40,44 +40,46 @@ For this tutorial, we'll use QdrantClient in local mode.
 """)
 
 # ============================================================================
-# PART 2: DOWNLOAD AZ-104 PDF
+# PART 2: LOAD RED HAT RH294 PDF
 # ============================================================================
 
 print("\n" + "="*70)
-print("PART 2: DOWNLOADING AZURE AZ-104 LEARNING PDF")
+print("PART 2: LOADING RED HAT RH294 STUDENT GUIDE PDF")
 print("="*70)
 
-def download_az104_pdf(pdf_path="az104-learning-guide.pdf"):
+def find_redhat_pdf():
     """
-    Download Azure AZ-104 learning PDF from Microsoft website.
+    Find Red Hat RH294 Student Guide PDF.
     
-    Note: You may need to manually download from:
-    https://learn.microsoft.com/en-us/credentials/certifications/exams/az-104/
-    or search for "AZ-104 study guide PDF" on Microsoft Learn
+    Looks for the PDF file in common locations.
     """
-    import requests
+    # Get current directory and parent directory
+    current_dir = os.getcwd()
+    parent_dir = os.path.dirname(current_dir)
     
-    # Common URLs where the PDF might be available
-    # Note: These are example URLs - actual download may require authentication
-    possible_urls = [
-        "https://aka.ms/AZ-104StudyGuide",  # Common Microsoft Learn shortcut
-        "https://learn.microsoft.com/en-us/training/paths/azure-administrator",
+    # Try different possible file names/locations
+    possible_paths = [
+        os.path.join(parent_dir, "rh294-9.0-student-guide (6).pdf"),  # Parent directory
+        "rh294-9.0-student-guide (6).pdf",  # Current directory
+        "../rh294-9.0-student-guide (6).pdf",  # Relative parent
+        "rh294-9.0-student-guide.pdf",
+        os.path.expanduser("~/rh294-9.0-student-guide (6).pdf"),
     ]
     
-    if os.path.exists(pdf_path):
-        print(f"✓ PDF already exists at: {pdf_path}")
-        return pdf_path
+    for pdf_path in possible_paths:
+        if os.path.exists(pdf_path):
+            print(f"✓ Found Red Hat PDF at: {pdf_path}")
+            return pdf_path
     
-    print("\n⚠ PDF not found. Please download manually:")
-    print("   1. Visit: https://learn.microsoft.com/en-us/credentials/certifications/exams/az-104/")
-    print("   2. Look for study guide or exam preparation materials")
-    print("   3. Download the PDF and save it as 'az104-learning-guide.pdf'")
-    print(f"   4. Or place it in the current directory: {os.getcwd()}")
+    print("\n⚠ Red Hat RH294 PDF not found.")
+    print("   Expected file: rh294-9.0-student-guide (6).pdf")
+    print(f"   Current directory: {os.getcwd()}")
+    print("\n   Please ensure the PDF is in the current directory or parent directory.")
     
     return None
 
 # Check for PDF
-pdf_path = download_az104_pdf()
+pdf_path = find_redhat_pdf()
 
 # ============================================================================
 # PART 3: PDF TEXT EXTRACTION
@@ -105,31 +107,27 @@ def extract_text_from_pdf(pdf_path):
             print("Using sample text for demonstration...")
             return {
                 'full_text': """
-                Azure Administrator (AZ-104) Certification Guide
+                Red Hat System Administration III (RH294) - Student Guide
                 
-                Module 1: Manage Azure Identities and Governance
-                Azure Active Directory (Azure AD) is Microsoft's cloud-based identity and 
-                access management service. It helps organizations manage users, groups, and 
-                applications. Key features include single sign-on, multi-factor authentication, 
-                and conditional access policies.
+                Module 1: Introduction to Ansible Automation
+                Ansible is an open-source automation platform that simplifies IT operations. 
+                It uses playbooks written in YAML to automate configuration management, 
+                application deployment, and orchestration tasks across Linux systems.
                 
-                Module 2: Implement and Manage Storage
-                Azure Storage provides scalable cloud storage for data objects. It includes 
-                Blob Storage for unstructured data, File Storage for file shares, Queue Storage 
-                for messaging, and Table Storage for NoSQL data. Storage accounts can be 
-                configured with different performance tiers and redundancy options.
+                Module 2: Installing and Configuring Ansible
+                Ansible can be installed on a control node and managed systems. The control node 
+                requires Python and SSH access to managed hosts. Inventory files define the 
+                systems Ansible manages, and ansible.cfg configures Ansible behavior.
                 
-                Module 3: Deploy and Manage Azure Compute Resources
-                Azure Virtual Machines (VMs) provide on-demand, scalable computing resources. 
-                Virtual Machine Scale Sets allow you to create and manage a group of load-balanced 
-                VMs. Azure Container Instances offer serverless container execution, while 
-                Azure Kubernetes Service (AKS) provides managed Kubernetes orchestration.
+                Module 3: Running Ad Hoc Commands
+                Ad hoc commands allow you to execute tasks quickly without writing playbooks. 
+                These commands use Ansible modules to perform operations like package management, 
+                service management, file operations, and system configuration on multiple hosts.
                 
-                Module 4: Implement and Manage Virtual Networking
-                Azure Virtual Network (VNet) enables Azure resources to communicate with each 
-                other, the internet, and on-premises networks. Key components include subnets, 
-                Network Security Groups (NSGs), VPN Gateways, and ExpressRoute for dedicated 
-                connectivity.
+                Module 4: Writing and Running Playbooks
+                Playbooks are YAML files that define a series of tasks to execute on managed hosts. 
+                They support variables, conditionals, loops, and error handling. Playbooks enable 
+                repeatable, idempotent automation of complex multi-step operations.
                 """,
                 'pages': [{'page_num': 1, 'text': 'Sample text...'}],
                 'total_pages': 1
@@ -172,7 +170,7 @@ def extract_text_from_pdf(pdf_path):
         return None
 
 # Extract text from PDF (or use sample if not available)
-pdf_data = extract_text_from_pdf(pdf_path if pdf_path else "az104-learning-guide.pdf")
+pdf_data = extract_text_from_pdf(pdf_path if pdf_path else "rh294-9.0-student-guide (6).pdf")
 
 if pdf_data:
     print(f"\nSample text (first 200 chars):")
@@ -363,7 +361,7 @@ print("\n" + "="*70)
 print("PART 6: STORING CHUNKS IN QDRANT")
 print("="*70)
 
-def setup_qdrant_collection(collection_name="az104_chunks", vector_size=384):
+def setup_qdrant_collection(collection_name="rh294_chunks", vector_size=384):
     """
     Initialize Qdrant client and create collection.
     
@@ -504,17 +502,17 @@ def complete_workflow_demo():
     6. Query the database
     """
     
-    # Check if we have PDF data
-    if not pdf_data:
-        print("⚠ No PDF data available. Using sample text.")
-        sample_text = """
-        Azure Administrator Certification covers managing Azure identities, storage, compute, 
-        and networking resources. Key topics include Azure Active Directory, Virtual Machines, 
-        Storage Accounts, Virtual Networks, and monitoring solutions.
-        """
-        pdf_data_local = {'full_text': sample_text}
-    else:
-        pdf_data_local = pdf_data
+        # Check if we have PDF data
+        if not pdf_data:
+            print("⚠ No PDF data available. Using sample text.")
+            sample_text = """
+            Red Hat System Administration III (RH294) covers Ansible automation for Linux systems. 
+            Key topics include Ansible installation, ad hoc commands, playbooks, variables, 
+            conditionals, loops, roles, and advanced Ansible features for configuration management.
+            """
+            pdf_data_local = {'full_text': sample_text}
+        else:
+            pdf_data_local = pdf_data
     
     try:
         from sentence_transformers import SentenceTransformer
@@ -541,7 +539,7 @@ def complete_workflow_demo():
         # Step 5: Setup Qdrant
         print("\n--- Step 5: Setting up Qdrant ---")
         client, collection_name = setup_qdrant_collection(
-            collection_name="az104_chunks",
+            collection_name="rh294_chunks",
             vector_size=model.get_sentence_embedding_dimension()
         )
         
@@ -551,15 +549,15 @@ def complete_workflow_demo():
         
         # Step 6: Store in Qdrant
         print("\n--- Step 6: Storing Chunks in Qdrant ---")
-        metadata = [{'source': 'az104_pdf', 'chunk_index': i} for i in range(len(chunks))]
+        metadata = [{'source': 'rh294_pdf', 'chunk_index': i} for i in range(len(chunks))]
         store_chunks_in_qdrant(client, collection_name, chunks, embeddings, metadata)
         
         # Step 7: Query examples
         print("\n--- Step 7: Querying Vector Database ---")
         query_examples = [
-            "What is Azure Active Directory?",
-            "How do I manage Azure storage?",
-            "Explain Azure Virtual Machines",
+            "What is Ansible automation?",
+            "How do I write Ansible playbooks?",
+            "Explain Ansible ad hoc commands",
         ]
         
         for query in query_examples:
@@ -680,10 +678,10 @@ print("\n" + "="*70)
 print("LESSON COMPLETE! 🎓")
 print("="*70)
 print("\nNext Steps:")
-print("1. Download Azure AZ-104 PDF from Microsoft Learn")
+print("1. Ensure Red Hat RH294 PDF is available (rh294-9.0-student-guide (6).pdf)")
 print("2. Install dependencies: pip install -r requirements.txt")
 print("3. Run this script: python qdrant_pdf_tutorial.py")
 print("4. Experiment with different chunking strategies")
-print("5. Build your own Q&A system with the PDF!")
+print("5. Build your own Q&A system for Red Hat learning content!")
 print("\n")
 

@@ -1,6 +1,6 @@
 # Data Splitting and Chunking Tutorial with Qdrant
 
-Welcome! This tutorial teaches you how to work with data splitting and chunking for vector databases using Python and Qdrant, with the Azure AZ-104 learning PDF as our example document.
+Welcome! This tutorial teaches you how to work with data splitting and chunking for vector databases using Python and Qdrant, with the Red Hat RH294 Student Guide PDF as our example document.
 
 ## 📚 Learning Objectives
 
@@ -19,25 +19,18 @@ By the end of this tutorial, you will:
 pip install -r requirements.txt
 ```
 
-### 2. Download Azure AZ-104 PDF
+### 2. Red Hat RH294 PDF
 
-The Azure AZ-104 learning PDF can be downloaded from Microsoft Learn:
+The tutorial uses the Red Hat System Administration III (RH294) Student Guide PDF.
 
-**Official Resources:**
-- [AZ-104 Exam Page](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-104/)
-- [Azure Administrator Learning Path](https://learn.microsoft.com/en-us/training/paths/azure-administrator/)
+**Required File:**
+- `rh294-9.0-student-guide (6).pdf` - Red Hat RH294 Student Guide
 
-**Option 1: Manual Download**
-1. Visit the Microsoft Learn pages above
-2. Look for study guides or exam preparation materials
-3. Download the PDF and save it as `az104-learning-guide.pdf` in this directory
+**File Location:**
+- The script will look for the PDF in the current directory or parent directory
+- Ensure the PDF file is available before running the tutorial
 
-**Option 2: Use Helper Script**
-```bash
-python download_pdf_helper.py
-```
-
-**Note:** The tutorial will work even without the PDF - it includes sample text for demonstration.
+**Note:** The tutorial will work even without the PDF - it includes sample text for demonstration about Ansible automation.
 
 ### 3. Run the Tutorial
 
