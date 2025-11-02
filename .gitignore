@@ -14,6 +14,12 @@ pip-delete-this-directory.txt
 # PDF files (to avoid committing large files)
 *.pdf
 
+# Red Hat learning materials (large files)
+rh294-*.pdf
+*student-guide*.pdf
+*student-guide*.txt
+*_extracted.txt
+
 # Qdrant database files
 qdrant_db/
 *.db
